@@ -2,9 +2,9 @@ source settings.sh
 
 cd ${gem5};
 
-build_path="build/ARM";
-build="${build_path}/gem5.opt";
+CPU_MODELS="CPU_MODELS=\"AtomicSimpleCPU,MinorCPU,O3CPU,TimingSimpleCPU\""
+build="build/X86/gem5.opt";
 
-commandline="scons ${build}";
+commandline="scons ${CPU_MODELS} ${build} -j5";
 echo ${commandline};
 ${commandline};

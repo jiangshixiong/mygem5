@@ -18,7 +18,6 @@
                 "role": "SLAVE"
             }, 
             "name": "membus", 
-            "point_of_coherency": true, 
             "snoop_filter": null, 
             "forward_latency": 4, 
             "clk_domain": "system.clk_domain", 
@@ -67,7 +66,6 @@
             "0:536870911"
         ], 
         "eventq_index": 0, 
-        "work_begin_cpu_id_exit": -1, 
         "dvfs_handler": {
             "enable": false, 
             "name": "dvfs_handler", 
@@ -172,32 +170,30 @@
                     "peer": "system.membus.slave[1]", 
                     "role": "MASTER"
                 }, 
-                "interrupts": [
-                    {
-                        "int_master": {
-                            "peer": "system.membus.slave[5]", 
-                            "role": "MASTER"
-                        }, 
-                        "name": "interrupts", 
-                        "pio": {
-                            "peer": "system.membus.master[0]", 
-                            "role": "SLAVE"
-                        }, 
-                        "int_slave": {
-                            "peer": "system.membus.master[1]", 
-                            "role": "SLAVE"
-                        }, 
-                        "pio_latency": 100000, 
-                        "clk_domain": "system.cpu.apic_clk_domain", 
-                        "system": "system", 
-                        "int_latency": 1000, 
-                        "eventq_index": 0, 
-                        "cxx_class": "X86ISA::Interrupts", 
-                        "path": "system.cpu.interrupts", 
-                        "pio_addr": 2305843009213693952, 
-                        "type": "X86LocalApic"
-                    }
-                ], 
+                "interrupts": {
+                    "int_master": {
+                        "peer": "system.membus.slave[5]", 
+                        "role": "MASTER"
+                    }, 
+                    "name": "interrupts", 
+                    "pio": {
+                        "peer": "system.membus.master[0]", 
+                        "role": "SLAVE"
+                    }, 
+                    "int_slave": {
+                        "peer": "system.membus.master[1]", 
+                        "role": "SLAVE"
+                    }, 
+                    "pio_latency": 100000, 
+                    "clk_domain": "system.cpu.apic_clk_domain", 
+                    "system": "system", 
+                    "int_latency": 1000, 
+                    "eventq_index": 0, 
+                    "cxx_class": "X86ISA::Interrupts", 
+                    "path": "system.cpu.interrupts", 
+                    "pio_addr": 2305843009213693952, 
+                    "type": "X86LocalApic"
+                }, 
                 "dcache_port": {
                     "peer": "system.membus.slave[2]", 
                     "role": "MASTER"
@@ -213,7 +209,7 @@
                         "pid": 100, 
                         "kvmInSE": false, 
                         "cxx_class": "LiveProcess", 
-                        "executable": "../gem5/tests/test-progs/hello/bin/x86/linux/hello", 
+                        "executable": "../gem5-stable/tests/test-progs/hello/bin/x86/linux/hello", 
                         "drivers": [], 
                         "system": "system", 
                         "gid": 100, 
@@ -222,14 +218,14 @@
                         "input": "cin", 
                         "ppid": 99, 
                         "type": "LiveProcess", 
-                        "cwd": "/home/shixiong/Desktop/Research/mygem5/scripts", 
+                        "cwd": "/home/shixiong/Desktop/mygem5/scripts", 
                         "simpoint": 0, 
                         "euid": 100, 
                         "path": "system.cpu.workload", 
                         "max_stack_size": 67108864, 
                         "name": "workload", 
                         "cmd": [
-                            "../gem5/tests/test-progs/hello/bin/x86/linux/hello"
+                            "../gem5-stable/tests/test-progs/hello/bin/x86/linux/hello"
                         ], 
                         "errout": "cerr", 
                         "useArchPT": false, 
@@ -283,7 +279,6 @@
                 }
             }
         ], 
-        "multi_thread": false, 
         "cpu_voltage_domain": {
             "name": "cpu_voltage_domain", 
             "eventq_index": 0, 
@@ -379,9 +374,9 @@
                 "tREFI": 7800000
             }
         ], 
-        "exit_on_work_items": false, 
+        "num_work_ids": 16, 
         "work_item_id": -1, 
-        "num_work_ids": 16
+        "work_begin_cpu_id_exit": -1
     }, 
     "time_sync_period": 100000000000, 
     "eventq_index": 0, 
