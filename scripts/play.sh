@@ -23,7 +23,7 @@ python="${python_path}/se.py";
 benchmark_path="${gem5}/tests/test-progs/hello/bin/${tech_lowercase}/linux";
 benchmark="${benchmark_path}/hello";
 
-commandline="${binary} ${python} -c ${benchmark}";
+commandline="${binary} --debug-flags=Cache --debug-file=debug_out.txt ${python} -c ${benchmark} --cache";
 
 echo ${commandline};
 

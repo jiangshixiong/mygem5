@@ -9,10 +9,10 @@
             "slave": {
                 "peer": [
                     "system.system_port", 
-                    "system.cpu.icache_port", 
-                    "system.cpu.dcache_port", 
-                    "system.cpu.itb.walker.port", 
-                    "system.cpu.dtb.walker.port", 
+                    "system.cpu.icache.mem_side", 
+                    "system.cpu.dcache.mem_side", 
+                    "system.cpu.itb_walker_cache.mem_side", 
+                    "system.cpu.dtb_walker_cache.mem_side", 
                     "system.cpu.interrupts.int_master"
                 ], 
                 "role": "SLAVE"
@@ -132,7 +132,7 @@
                         "path": "system.cpu.itb.walker", 
                         "type": "X86PagetableWalker", 
                         "port": {
-                            "peer": "system.membus.slave[3]", 
+                            "peer": "system.cpu.itb_walker_cache.cpu_side", 
                             "role": "MASTER"
                         }, 
                         "num_squash_per_cycle": 4
@@ -142,6 +142,53 @@
                     "size": 64
                 }, 
                 "simulate_data_stalls": false, 
+                "dtb_walker_cache": {
+                    "is_top_level": true, 
+                    "prefetcher": null, 
+                    "clk_domain": "system.cpu_clk_domain", 
+                    "write_buffers": 8, 
+                    "response_latency": 2, 
+                    "cxx_class": "BaseCache", 
+                    "size": 1024, 
+                    "tags": {
+                        "name": "tags", 
+                        "eventq_index": 0, 
+                        "hit_latency": 2, 
+                        "clk_domain": "system.cpu_clk_domain", 
+                        "sequential_access": false, 
+                        "assoc": 2, 
+                        "cxx_class": "LRU", 
+                        "path": "system.cpu.dtb_walker_cache.tags", 
+                        "block_size": 64, 
+                        "type": "LRU", 
+                        "size": 1024
+                    }, 
+                    "system": "system", 
+                    "max_miss_count": 0, 
+                    "eventq_index": 0, 
+                    "mem_side": {
+                        "peer": "system.membus.slave[4]", 
+                        "role": "MASTER"
+                    }, 
+                    "mshrs": 10, 
+                    "forward_snoops": false, 
+                    "hit_latency": 2, 
+                    "demand_mshr_reserve": 1, 
+                    "tgts_per_mshr": 12, 
+                    "addr_ranges": [
+                        "0:18446744073709551615"
+                    ], 
+                    "assoc": 2, 
+                    "prefetch_on_access": false, 
+                    "path": "system.cpu.dtb_walker_cache", 
+                    "name": "dtb_walker_cache", 
+                    "type": "BaseCache", 
+                    "sequential_access": false, 
+                    "cpu_side": {
+                        "peer": "system.cpu.dtb.walker.port", 
+                        "role": "SLAVE"
+                    }
+                }, 
                 "function_trace": false, 
                 "do_checkpoint_insts": true, 
                 "cxx_class": "AtomicSimpleCPU", 
@@ -156,6 +203,53 @@
                     "type": "DerivedClockDomain", 
                     "clk_divider": 16
                 }, 
+                "itb_walker_cache": {
+                    "is_top_level": true, 
+                    "prefetcher": null, 
+                    "clk_domain": "system.cpu_clk_domain", 
+                    "write_buffers": 8, 
+                    "response_latency": 2, 
+                    "cxx_class": "BaseCache", 
+                    "size": 1024, 
+                    "tags": {
+                        "name": "tags", 
+                        "eventq_index": 0, 
+                        "hit_latency": 2, 
+                        "clk_domain": "system.cpu_clk_domain", 
+                        "sequential_access": false, 
+                        "assoc": 2, 
+                        "cxx_class": "LRU", 
+                        "path": "system.cpu.itb_walker_cache.tags", 
+                        "block_size": 64, 
+                        "type": "LRU", 
+                        "size": 1024
+                    }, 
+                    "system": "system", 
+                    "max_miss_count": 0, 
+                    "eventq_index": 0, 
+                    "mem_side": {
+                        "peer": "system.membus.slave[3]", 
+                        "role": "MASTER"
+                    }, 
+                    "mshrs": 10, 
+                    "forward_snoops": false, 
+                    "hit_latency": 2, 
+                    "demand_mshr_reserve": 1, 
+                    "tgts_per_mshr": 12, 
+                    "addr_ranges": [
+                        "0:18446744073709551615"
+                    ], 
+                    "assoc": 2, 
+                    "prefetch_on_access": false, 
+                    "path": "system.cpu.itb_walker_cache", 
+                    "name": "itb_walker_cache", 
+                    "type": "BaseCache", 
+                    "sequential_access": false, 
+                    "cpu_side": {
+                        "peer": "system.cpu.itb.walker.port", 
+                        "role": "SLAVE"
+                    }
+                }, 
                 "clk_domain": "system.cpu_clk_domain", 
                 "function_trace_start": 0, 
                 "cpu_id": 0, 
@@ -167,8 +261,55 @@
                 "fastmem": false, 
                 "profile": 0, 
                 "icache_port": {
-                    "peer": "system.membus.slave[1]", 
+                    "peer": "system.cpu.icache.cpu_side", 
                     "role": "MASTER"
+                }, 
+                "icache": {
+                    "is_top_level": true, 
+                    "prefetcher": null, 
+                    "clk_domain": "system.cpu_clk_domain", 
+                    "write_buffers": 8, 
+                    "response_latency": 2, 
+                    "cxx_class": "BaseCache", 
+                    "size": 32768, 
+                    "tags": {
+                        "name": "tags", 
+                        "eventq_index": 0, 
+                        "hit_latency": 2, 
+                        "clk_domain": "system.cpu_clk_domain", 
+                        "sequential_access": false, 
+                        "assoc": 2, 
+                        "cxx_class": "LRU", 
+                        "path": "system.cpu.icache.tags", 
+                        "block_size": 64, 
+                        "type": "LRU", 
+                        "size": 32768
+                    }, 
+                    "system": "system", 
+                    "max_miss_count": 0, 
+                    "eventq_index": 0, 
+                    "mem_side": {
+                        "peer": "system.membus.slave[1]", 
+                        "role": "MASTER"
+                    }, 
+                    "mshrs": 4, 
+                    "forward_snoops": true, 
+                    "hit_latency": 2, 
+                    "demand_mshr_reserve": 1, 
+                    "tgts_per_mshr": 20, 
+                    "addr_ranges": [
+                        "0:18446744073709551615"
+                    ], 
+                    "assoc": 2, 
+                    "prefetch_on_access": false, 
+                    "path": "system.cpu.icache", 
+                    "name": "icache", 
+                    "type": "BaseCache", 
+                    "sequential_access": false, 
+                    "cpu_side": {
+                        "peer": "system.cpu.icache_port", 
+                        "role": "SLAVE"
+                    }
                 }, 
                 "interrupts": {
                     "int_master": {
@@ -195,7 +336,7 @@
                     "type": "X86LocalApic"
                 }, 
                 "dcache_port": {
-                    "peer": "system.membus.slave[2]", 
+                    "peer": "system.cpu.dcache.cpu_side", 
                     "role": "MASTER"
                 }, 
                 "socket_id": 0, 
@@ -247,7 +388,7 @@
                         "path": "system.cpu.dtb.walker", 
                         "type": "X86PagetableWalker", 
                         "port": {
-                            "peer": "system.membus.slave[4]", 
+                            "peer": "system.cpu.dtb_walker_cache.cpu_side", 
                             "role": "MASTER"
                         }, 
                         "num_squash_per_cycle": 4
@@ -261,6 +402,53 @@
                 "simulate_inst_stalls": false, 
                 "progress_interval": 0, 
                 "branchPred": null, 
+                "dcache": {
+                    "is_top_level": true, 
+                    "prefetcher": null, 
+                    "clk_domain": "system.cpu_clk_domain", 
+                    "write_buffers": 8, 
+                    "response_latency": 2, 
+                    "cxx_class": "BaseCache", 
+                    "size": 65536, 
+                    "tags": {
+                        "name": "tags", 
+                        "eventq_index": 0, 
+                        "hit_latency": 2, 
+                        "clk_domain": "system.cpu_clk_domain", 
+                        "sequential_access": false, 
+                        "assoc": 2, 
+                        "cxx_class": "LRU", 
+                        "path": "system.cpu.dcache.tags", 
+                        "block_size": 64, 
+                        "type": "LRU", 
+                        "size": 65536
+                    }, 
+                    "system": "system", 
+                    "max_miss_count": 0, 
+                    "eventq_index": 0, 
+                    "mem_side": {
+                        "peer": "system.membus.slave[2]", 
+                        "role": "MASTER"
+                    }, 
+                    "mshrs": 4, 
+                    "forward_snoops": true, 
+                    "hit_latency": 2, 
+                    "demand_mshr_reserve": 1, 
+                    "tgts_per_mshr": 20, 
+                    "addr_ranges": [
+                        "0:18446744073709551615"
+                    ], 
+                    "assoc": 2, 
+                    "prefetch_on_access": false, 
+                    "path": "system.cpu.dcache", 
+                    "name": "dcache", 
+                    "type": "BaseCache", 
+                    "sequential_access": false, 
+                    "cpu_side": {
+                        "peer": "system.cpu.dcache_port", 
+                        "role": "SLAVE"
+                    }
+                }, 
                 "isa": [
                     {
                         "eventq_index": 0, 
