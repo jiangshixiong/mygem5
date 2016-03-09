@@ -1,3 +1,4 @@
 /gem5-stable/build/*
 /gem5-gpu/gem5/build/*
 /scripts/m5out/*
+/gem5-stable/configs/example/m5out/*
